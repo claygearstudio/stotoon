@@ -9,11 +9,11 @@ export function publicOptions({siteUrl='',videoUrl='',credit='',indexable=false}
 }
 export async function packageBeta({output='deploy/beta/public',...input}={}){
  const cfg=publicOptions(input),target=path.join(output,'homepage');
- const allowed=new Set(['index.html','robots.txt','sitemap.xml','_headers',...['index.html','style.css','studio.css','public.css','studio.js','main.js','privacy.html','privacy.js','complete.html','video.js'].map(n=>'homepage/'+n),...['art.png','editor.png','share.png'].map(n=>'homepage/assets/'+n)]);
+ const allowed=new Set(['index.html','robots.txt','sitemap.xml','_headers',...['index.html','style.css','studio.css','public.css','studio.js','main.js','privacy.html','privacy.js','complete.html','video.js','workspace.html','workspace.css','workspace.js','workspace-objects.js','workspace-history.js'].map(n=>'homepage/'+n),...['art.png','editor.png','share.png','scene-background.png','scene-draco.png'].map(n=>'homepage/assets/'+n)]);
  async function check(dir,prefix=''){for(const item of await fs.readdir(dir,{withFileTypes:true}).catch(e=>{if(e.code==='ENOENT')return [];throw e;})){const rel=prefix+item.name;if(item.isSymbolicLink())throw Error('배포 폴더의 링크는 허용하지 않습니다: '+rel);if(item.isDirectory())await check(path.join(dir,item.name),rel+'/');else if(!allowed.has(rel))throw Error('배포 허용 목록 밖 파일이 있습니다: '+rel);}}
  await check(output);await fs.mkdir(target,{recursive:true});
- for(const name of ['style.css','studio.css','public.css','studio.js','main.js','privacy.html','privacy.js','complete.html'])await fs.copyFile(path.join('apps/homepage',name),path.join(target,name));
- await fs.mkdir(path.join(target,'assets'),{recursive:true});for(const name of ['art.png','editor.png','share.png'])await fs.copyFile(path.join('apps/homepage/assets',name),path.join(target,'assets',name));
+ for(const name of ['style.css','studio.css','public.css','studio.js','main.js','privacy.html','privacy.js','complete.html','workspace.html','workspace.css','workspace.js','workspace-objects.js','workspace-history.js'])await fs.copyFile(path.join('apps/homepage',name),path.join(target,name));
+ await fs.mkdir(path.join(target,'assets'),{recursive:true});for(const name of ['art.png','editor.png','share.png','scene-background.png','scene-draco.png'])await fs.copyFile(path.join('apps/homepage/assets',name),path.join(target,'assets',name));
  // Use system fonts in the standalone site; never reference private /files assets.
  let css=await fs.readFile(path.join(target,'style.css'),'utf8');css=css.replace(/@font-face\{[^}]*\}/g,'');await fs.writeFile(path.join(target,'style.css'),css);
  let html=await fs.readFile('apps/homepage/public.html','utf8');
@@ -21,7 +21,7 @@ export async function packageBeta({output='deploy/beta/public',...input}={}){
  html=html.replace(/<title>[^<]*<\/title>/,`<title>${title}</title>`).replace(/<meta name="description" content="[^"]*">/,`<meta name="description" content="${description}">`);
  const canonical=cfg.origin?cfg.origin+'/homepage/':'';
  const seo=`<meta name="robots" content="${cfg.indexable?'index,follow':'noindex,nofollow'}"><meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="스토툰"><meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta name="twitter:card" content="summary_large_image">${canonical?`<link rel="canonical" href="${escape(canonical)}"><meta property="og:url" content="${escape(canonical)}"><meta property="og:image" content="${escape(cfg.origin)}/homepage/assets/share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">`:''}`;
- html=html.replace('<!-- SEO_SLOT -->',seo).replace('<!-- CREDIT_SLOT -->',escape(cfg.credit||'검토용 작품 예시 · 공개 사용 및 저작권 표기는 최종 확인 전입니다.'));
+ html=html.replace('<!-- SEO_SLOT -->',seo).replace('<!-- CREDIT_SLOT -->',escape(cfg.credit||'스토툰 프로젝트에서 제작한 기능 소개용 예시 이미지입니다.'));
  const demo=cfg.videoId?`<p>외부 영상은 버튼을 누른 뒤 불러옵니다.</p><button class="button" id="load-demo" data-video="${cfg.videoId}">시연 영상 재생</button><div id="demo-frame"></div><a class="demo-link" href="https://www.youtube.com/watch?v=${cfg.videoId}" target="_blank" rel="noopener noreferrer">YouTube에서 영상 보기 ↗</a><script src="/homepage/video.js" defer></script>`:'<div class="demo-placeholder"><p>시연 영상을 준비하고 있습니다.</p><p>공개 전 실제 작업 흐름을 담은 30~60초 영상을 반영합니다.</p></div>';
  html=html.replace('<!-- DEMO_SLOT -->',demo);await fs.writeFile(path.join(target,'index.html'),html);
  await fs.copyFile('apps/homepage/video.js',path.join(target,'video.js'));
