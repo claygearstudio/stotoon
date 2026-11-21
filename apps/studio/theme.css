@@ -1,0 +1,76 @@
+/* Shared Stotoon identity, scoped away from manuscript artwork and exports. */
+body.tool-theme.stotoon-workspace .layer-grip{touch-action:none;min-width:32px;min-height:44px;display:grid;place-items:center;cursor:grab}
+body.tool-theme.stotoon-workspace .layer-order-actions{display:flex;gap:6px;padding:8px}
+body.tool-theme.stotoon-workspace .layer-order-actions button{flex:1;min-height:40px}
+body.tool-theme.stotoon-workspace .layer-close{display:none}
+@media(max-width:720px){
+ body.tool-theme.stotoon-workspace .rail.layer-drawer{top:0;bottom:0;width:min(340px,92vw);z-index:60;border-right:1px solid #879b72}
+ body.tool-theme.stotoon-workspace .layer-close{display:block;min-height:44px;min-width:54px;margin-left:auto}
+ body.tool-theme.stotoon-workspace #cut-layers{flex:1 1 65%;min-height:300px}
+ body.tool-theme.stotoon-workspace #thumbs{flex:1 1 25%;min-height:90px}
+ body.tool-theme.stotoon-workspace .layer-control{min-width:44px;min-height:44px!important}
+ body.tool-theme.stotoon-workspace #cut-layers h3{background:#26322a;align-items:center;gap:8px;padding:8px;flex-wrap:wrap}
+ body.tool-theme.stotoon-workspace dialog{box-sizing:border-box;width:min(650px,94vw)!important;padding:20px!important}
+ body.tool-theme.stotoon-workspace dialog button{min-height:44px}
+}
+body.tool-theme.stotoon-workspace #visible-layers{display:none}
+body.tool-theme.stotoon-workspace #cut-layers.viewport-detail-hidden{display:block}
+body.tool-theme.stotoon-workspace dialog{padding:28px!important}
+body.tool-theme.stotoon-workspace #story-help-close{min-width:64px;min-height:44px}
+body.tool-theme.stotoon-workspace #story-help :is(p,ol,details){margin-block:22px}
+body.tool-theme.stotoon-workspace #story-help hr{border:0;border-top:1px solid #667a5a;margin:26px 0}
+body.tool-theme.stotoon-workspace #story-document[readonly]{background:transparent!important;border-color:transparent!important;box-shadow:none;cursor:default}
+body.tool-theme.stotoon-workspace #story-document:not([readonly]){border:2px solid #b8d392!important;padding:16px}
+body.tool-theme.stotoon-workspace .note-edit-state{font-size:12px;color:#c9dcb9;margin:14px 0}
+body.tool-theme.stotoon-workspace :is(.canvas,.inspector,#story,#cut-layers,#thumbs){overflow-y:auto;scrollbar-width:auto;scrollbar-gutter:stable;min-height:0}
+body.tool-theme.stotoon-workspace .layer-control{min-width:30px;min-height:34px!important}
+body.tool-theme.stotoon-workspace dialog.export-menu>button{display:block;width:100%;text-align:left;margin:10px 0!important;padding:14px 18px;min-height:48px}
+body.tool-theme.stotoon-workspace dialog.export-menu>button:first-of-type{width:auto;margin-left:auto!important}
+body.tool-theme.stotoon-workspace .project-history button{min-width:44px;min-height:40px}
+body.tool-theme.stotoon-workspace{--accent:#b8d392;background:#1e2721;color:#e3eadc;font-size:13px}
+body.tool-theme.stotoon-workspace *{scrollbar-color:#56664d #202923}
+body.tool-theme.stotoon-workspace header{background:#f6f7f2;border-bottom:1px solid #d9e0d2;height:66px;min-height:66px;padding:0 24px;gap:30px}
+body.tool-theme.stotoon-workspace .workspace-home{color:#283c29!important;font-size:28px!important;font-weight:700;letter-spacing:-1.6px;text-decoration:none;flex-shrink:0}
+body.tool-theme.stotoon-workspace .workspace-home:after{content:'●';font-size:9px;color:#839e60;margin-left:4px;vertical-align:middle}
+body.tool-theme.stotoon-workspace header>.brand{display:none}
+body.tool-theme.stotoon-workspace .steps{gap:6px;align-items:center;flex:1;justify-content:center}
+body.tool-theme.stotoon-workspace .steps button{color:#63715b;background:transparent;padding:9px 15px;border-radius:6px;font-size:12px;white-space:nowrap}
+body.tool-theme.stotoon-workspace .steps button.active{background:#e1e9d5!important;color:#314729!important;border-color:transparent!important;box-shadow:none}
+body.tool-theme.stotoon-workspace .steps b{background:#e6ebdf!important;color:#647550;font-size:11px}
+body.tool-theme.stotoon-workspace .steps .active b{background:#c4d6ab!important;color:#344b27}
+body.tool-theme.stotoon-workspace button{border-radius:5px;background:#303f32;border:1px solid #4a5b45;color:#e0e9d8;min-height:33px;font-size:12px;box-shadow:none}
+body.tool-theme.stotoon-workspace button:hover{background:#40543b;border-color:#8aa46d;color:#fff}
+body.tool-theme.stotoon-workspace button:disabled{opacity:.4;cursor:not-allowed}
+body.tool-theme.stotoon-workspace button.primary,body.tool-theme.stotoon-workspace button.active{background:#455f36!important;color:#eff8e5!important;border-color:#859e67!important}
+body.tool-theme.stotoon-workspace :is(button,a,input,textarea,select):focus-visible{outline:2px solid #a6c87b;outline-offset:3px}
+body.tool-theme.stotoon-workspace :is(input,textarea,select){background:#1d2820;color:#e1ead8;border:1px solid #4e5f46;border-radius:5px;accent-color:#b8d392}
+body.tool-theme.stotoon-workspace input::placeholder,body.tool-theme.stotoon-workspace textarea::placeholder{color:#9ba991}
+body.tool-theme.stotoon-workspace .flowbar{background:#26352a;border-bottom:1px solid #44533d;display:flex;flex-wrap:wrap!important;gap:7px;padding:10px 22px;overflow:visible;flex-shrink:0}
+body.tool-theme.stotoon-workspace .flowbar #flow-status{position:static!important;left:auto!important;display:block!important;order:10;flex:0 0 100%;width:auto!important;height:auto!important;min-height:17px;font-size:11px;color:#c3d2b7;white-space:normal;line-height:1.6;overflow:visible;max-width:none}
+body.tool-theme.stotoon-workspace .flowbar .service-file-action,body.tool-theme.stotoon-workspace .flowbar #flow-export{display:none!important}
+body.tool-theme.stotoon-workspace .flowbar .service-file-menu{display:inline-flex!important;align-items:center;justify-content:center;min-width:110px;margin:0!important;height:35px;padding:7px 13px}
+body.tool-theme.stotoon-workspace .flowbar :is(#flow-save,#flow-load){width:auto!important;min-width:88px!important;gap:8px;padding:7px 12px!important;background:#34472f;color:#e0ecd4;border-color:#5a714b}
+body.tool-theme.stotoon-workspace .flowbar #flow-save{background:#b8d392;color:#263921;border-color:#b8d392}
+body.tool-theme.stotoon-workspace #flow-save:after{content:'작품 저장';font-size:11px}body.tool-theme.stotoon-workspace #flow-load:after{content:'불러오기';font-size:11px}
+body.tool-theme.stotoon-workspace .flowbar .compact-icon{background:#2d3c30;color:#c4d6b5;border-color:#4d6145}
+body.tool-theme.stotoon-workspace .project-history{margin-right:10px}
+body.tool-theme.stotoon-workspace .production-orientation,body.tool-theme.stotoon-workspace .subbar{background:#263029;border-color:#42513d;padding-inline:22px}
+body.tool-theme.stotoon-workspace .subbar h2{color:#d1ddc5;font-size:13px}
+body.tool-theme.stotoon-workspace .writing-service{background:#27372b;border-bottom:1px solid #46583f;color:#cadcba;padding:9px 22px;font-size:11px}
+body.tool-theme.stotoon-workspace[data-workspace-mode=edit] .writing-service,body.tool-theme.stotoon-workspace[data-workspace-mode=layout] .writing-service{display:none}
+body.tool-theme.stotoon-workspace .canvas{background:#151e18}
+body.tool-theme.stotoon-workspace :is(.rail,.inspector,#cut-layers){background:#26322a;border-color:#46533f}
+body.tool-theme.stotoon-workspace :is(.planning-dock,.story-chat,.story-result){background:#26332a!important;border:1px solid #485d40!important;border-radius:8px!important}
+body.tool-theme.stotoon-workspace :is(.dock-heading,.dock-bottom,.story-head,.story-footer){border-color:#485d40}
+body.tool-theme.stotoon-workspace #story-document,body.tool-theme.stotoon-workspace .story-compose textarea{background:#1c2820!important;border-color:#4e6245!important;color:#e6eddf;line-height:1.9}
+body.tool-theme.stotoon-workspace .dock-number{background:#3e5532;color:#d0e4b8}
+body.tool-theme.stotoon-workspace :is(.muted,.dock-caption,.story-footer){color:#afbea3}
+body.tool-theme.stotoon-workspace dialog{background:#26362b;color:#e8efdf;border:1px solid #70855d;border-radius:12px;box-shadow:0 24px 90px #0007;max-width:94vw;line-height:1.7}
+body.tool-theme.stotoon-workspace dialog::backdrop{background:#101b15bb;backdrop-filter:blur(3px)}
+body.tool-theme.stotoon-workspace dialog h2{font-size:21px;letter-spacing:-.5px}
+body.tool-theme.stotoon-workspace dialog :is(p,label){color:#c1d0b5}
+body.tool-theme.stotoon-workspace dialog button{margin-top:8px;min-height:36px}
+body.tool-theme.stotoon-workspace dialog a{color:#c8e6a1}
+body.tool-theme.stotoon-workspace .character-footer{background:#26362b}
+@media(max-width:800px){body.tool-theme.stotoon-workspace header{padding:10px 14px;height:auto;min-height:92px;flex-wrap:wrap;gap:8px}body.tool-theme.stotoon-workspace .workspace-home{font-size:24px!important}body.tool-theme.stotoon-workspace .steps{width:100%;flex-basis:100%;justify-content:space-between;gap:3px}body.tool-theme.stotoon-workspace .steps button{padding:7px 5px;font-size:10px;min-height:32px}body.tool-theme.stotoon-workspace .steps b{width:19px;height:19px;margin-right:4px}body.tool-theme.stotoon-workspace .flowbar{padding:8px 12px;gap:6px}body.tool-theme.stotoon-workspace .project-history{margin-right:0}body.tool-theme.stotoon-workspace #history-status{display:none}body.tool-theme.stotoon-workspace .writing-service{padding:8px 12px;gap:6px}body.tool-theme.stotoon-workspace .writing-service button{font-size:10px}body.tool-theme.stotoon-workspace .flowbar :is(#flow-save,#flow-load){min-width:68px!important;padding:6px 8px!important;gap:5px}body.tool-theme.stotoon-workspace .flowbar .service-file-menu{min-width:100px;font-size:11px}body.tool-theme.stotoon-workspace .subbar,body.tool-theme.stotoon-workspace .production-orientation{padding-inline:14px}}
+

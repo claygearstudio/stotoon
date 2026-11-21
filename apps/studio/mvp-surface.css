@@ -1,0 +1,27 @@
+/* First MVP: production/debug tools remain implemented but off the main surface. */
+body.tool-theme #local-open,
+body.tool-theme #previs-open,
+body.tool-theme .previs-inline,
+body.tool-theme #journey-start,
+body.tool-theme .orientation-count,
+body.tool-theme #production-open,
+body.tool-theme .orientation-task span,
+body.tool-theme header .tag,
+body.tool-theme .subbar .muted,
+body.tool-theme .subbar #next,
+body.tool-theme #story-production,
+body.tool-theme .dock-bottom,
+body.tool-theme .plan-summary,
+body.tool-theme #story-preview{display:none!important}
+body.tool-theme .production-orientation{min-height:48px;padding:8px 20px;border-bottom:1px solid #363b40}
+body.tool-theme .orientation-task strong,body.tool-theme.story-workstation #stage-purpose{font-size:15px;font-weight:600;color:#dce0d7}
+body.tool-theme .subbar{min-height:42px;padding:6px 16px}
+body.tool-theme .subbar h2{font-size:12px;color:#aeb5b9}
+body.tool-theme .flowbar{min-height:44px;padding:5px 16px}
+body.tool-theme #flow-status{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.tool-theme .dock-heading{padding:16px 14px}
+body.tool-theme .dock-heading p{display:none}
+body.tool-theme .dock-body{padding:16px 14px}
+body.tool-theme .story-head{height:44px}
+body.tool-theme .story-footer>.muted{font-size:10px;color:#9ca598}
+@media(max-width:700px){body.tool-theme .production-orientation{min-height:48px;flex-wrap:nowrap}.production-orientation .orientation-task{flex-basis:auto!important}body.tool-theme #stage-purpose{font-size:12px!important}body.tool-theme .flowbar{flex-wrap:nowrap;overflow-x:auto}body.tool-theme .flowbar #flow-export{min-width:72px}}

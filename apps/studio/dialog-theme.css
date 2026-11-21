@@ -1,0 +1,38 @@
+/* Common workspace surfaces; artwork and export SVGs are intentionally excluded. */
+body.tool-theme.stotoon-workspace dialog{
+ --dialog-line:#d7dfce;background:#f5f6ee!important;color:#293b29!important;
+ border:1px solid #d4deca!important;border-radius:16px!important;padding:26px!important;
+ box-shadow:0 24px 90px #0b180d66!important;max-height:88dvh;box-sizing:border-box;
+ font-size:14px;line-height:1.75;color-scheme:light;
+}
+body.tool-theme.stotoon-workspace dialog :is(h2,h3,h4,strong,label){color:#2b412b!important}
+body.tool-theme.stotoon-workspace dialog h2{font-size:22px!important;margin:0;letter-spacing:-.6px}
+body.tool-theme.stotoon-workspace dialog h3{font-size:15px;margin:20px 0 10px}
+body.tool-theme.stotoon-workspace dialog :is(p,small,.muted,.flow-label){color:#56644f!important;overflow-wrap:anywhere}
+body.tool-theme.stotoon-workspace dialog p{margin:14px 0}
+body.tool-theme.stotoon-workspace dialog :is(input,textarea,select){background:#fffef8!important;color:#293b29!important;border:1px solid #bdcbb0!important;padding:11px 12px;max-width:100%;box-sizing:border-box;line-height:1.7}
+body.tool-theme.stotoon-workspace dialog label{display:block;margin:12px 0}
+body.tool-theme.stotoon-workspace dialog input:not([type=checkbox]):not([type=radio]){width:100%}
+body.tool-theme.stotoon-workspace dialog button{background:#e8eddf!important;color:#30452b!important;border:1px solid #c6d3b8!important;min-height:42px;padding:9px 14px;border-radius:8px;line-height:1.4}
+body.tool-theme.stotoon-workspace dialog button:hover{background:#d9e5cc!important;border-color:#89a372!important}
+body.tool-theme.stotoon-workspace dialog :is(button.primary,button[aria-pressed=true],button.active){background:#46653a!important;border-color:#46653a!important;color:#fff!important}
+body.tool-theme.stotoon-workspace dialog a{color:#3c662b!important}
+body.tool-theme.stotoon-workspace dialog :is(.previs-meta,.jcard,.jsteps span,.flow-steps span){background:#e8eddf!important;color:#34472c!important;border-color:#c6d3b8!important}
+body.tool-theme.stotoon-workspace dialog .jmuted{color:#56644f!important}
+body.tool-theme.stotoon-workspace dialog :is(.flow-card,.character-card,.flow-chat-result){background:#edf1e5!important;border-color:#c6d3b8!important;color:#30452b!important}
+body.tool-theme.stotoon-workspace dialog :is(.character-footer,.flow-footer){background:transparent!important;border-top:1px solid var(--dialog-line);padding-top:16px;margin-top:20px}
+body.tool-theme.stotoon-workspace dialog>.dialog-heading,
+body.tool-theme.stotoon-workspace dialog>.row:first-child,
+body.tool-theme.stotoon-workspace dialog>header:first-child{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:transparent!important;border:0;border-bottom:1px solid var(--dialog-line);padding:0 0 16px;margin:0 0 18px;height:auto;min-height:0}
+body.tool-theme.stotoon-workspace dialog .dialog-heading button{margin:0!important;flex-shrink:0;min-width:58px}
+body.tool-theme.stotoon-workspace dialog [role=alert]:not(:empty){background:#f9e9dd;color:#864323!important;padding:12px;border-radius:8px}
+body.tool-theme.stotoon-workspace dialog [role=status]:not(:empty){padding:10px 12px;background:#e6eddc;border-radius:8px}
+body.tool-theme.stotoon-workspace dialog .file-section{border:1px solid #d2ddc6;border-radius:12px;background:#fffef8;padding:16px;margin:14px 0}
+body.tool-theme.stotoon-workspace dialog .file-section h3{margin:0 0 12px}
+body.tool-theme.stotoon-workspace dialog .file-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+body.tool-theme.stotoon-workspace dialog .file-options button{margin:0!important;display:flex;flex-direction:column;align-items:start;text-align:left;gap:5px;padding:14px;min-height:78px}
+body.tool-theme.stotoon-workspace dialog .file-options small{font-size:12px;font-weight:400}
+body.tool-theme.stotoon-workspace dialog .memo-filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+body.tool-theme.stotoon-workspace dialog article{border:1px solid #d2ddc6!important;border-radius:10px;padding:16px!important;margin:12px 0;background:#fffef8}
+@media(max-width:720px){body.tool-theme.stotoon-workspace dialog{padding:20px!important;max-width:94vw!important}body.tool-theme.stotoon-workspace dialog .file-options{grid-template-columns:1fr}body.tool-theme.stotoon-workspace dialog button{min-height:44px}}
+@media(max-width:720px){body.tool-theme.stotoon-workspace #bench-pose-dialog{width:100vw!important;max-width:100vw!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;padding:12px!important;border-radius:0!important;overflow:hidden}body.tool-theme.stotoon-workspace #bench-pose-dialog>header{flex-wrap:nowrap;gap:8px;margin-bottom:8px;padding-bottom:8px}body.tool-theme.stotoon-workspace #bench-pose-dialog h2{font-size:16px!important}body.tool-theme.stotoon-workspace #bench-pose-dialog iframe{height:calc(100% - 68px)!important}}
