@@ -2,6 +2,11 @@ export const CONSENT_VERSION='beta-20261121';
 const json=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}});
 const previewAfter=env=>Number.isFinite(Date.parse(env.PREVIEW_NOTIFY_AFTER))?new Date(env.PREVIEW_NOTIFY_AFTER).toISOString():'';
 const notificationEnabled=(env,date,live)=>!!(env.RESEND_API_KEY&&env.MAIL_FROM&&env.NOTIFY_TO&&(live||(previewAfter(env)&&previewAfter(env)<=date.toISOString())));
+async function boundedText(request){
+ const reader=request.body?.getReader();if(!reader)return '';
+ let bytes=0,text='';const decoder=new TextDecoder();
+ try{while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>6000){await reader.cancel();return null;}text+=decoder.decode(value,{stream:true});}return text+decoder.decode();}finally{reader.releaseLock();}
+}
 export function settings(env={},date=new Date()){
  const live=env.BETA_OPEN==='1';
  const ready=!!(env.OPERATOR_NAME&&env.PRIVACY_EMAIL&&env.PRIVACY_APPROVED==='1'&&env.RESEND_API_KEY&&env.MAIL_FROM&&env.NOTIFY_TO);
@@ -15,7 +20,7 @@ export async function handleBeta(request,env,db,{now=()=>new Date()}={}){
  if(!['/api/homepage/beta','/api/homepage/visit'].includes(route)||request.method!=='POST')return json({error:'찾을 수 없습니다.'},404);
  if(request.headers.get('origin')!==url.origin)return json({error:'같은 홈페이지에서 신청해 주세요.'},403);
  if(!request.headers.get('content-type')?.startsWith('application/json'))return json({error:'JSON 요청이 필요합니다.'},415);
- const text=await request.text();if(text.length>6000)return json({error:'입력 내용이 너무 깁니다.'},413);
+ const text=await boundedText(request);if(text===null)return json({error:'입력 내용이 너무 깁니다.'},413);
  let b;try{b=JSON.parse(text);}catch{return json({error:'입력 형식을 확인해 주세요.'},400);}
  if(!b||typeof b!=='object'||Array.isArray(b))return json({error:'입력 형식을 확인해 주세요.'},400);
  const stamp=date.toISOString();
@@ -34,8 +39,14 @@ export async function handleBeta(request,env,db,{now=()=>new Date()}={}){
  const id=crypto.randomUUID();
  // Expired data never blocks a fresh application; metrics contain no applicant data.
  await db.prepare('DELETE FROM beta_applicants WHERE expires_at<=?').bind(stamp).run();
- const result=await db.prepare('INSERT OR IGNORE INTO beta_applicants(id,email,name,purpose,message,consent_version,created_at,expires_at,mode) VALUES(?,?,?,?,?,?,?,?,?)').bind(id,email,name,purpose,message,CONSENT_VERSION,stamp,expires,cfg.mode).run();
- if(!result.meta.changes)return json({error:'이 이메일로 이미 신청하셨습니다.'},409);
+ const limit=Number(env.DAILY_SIGNUP_LIMIT||50);
+ if(!Number.isInteger(limit)||limit<1||limit>1000)return json({error:'신청 설정을 확인 중입니다.'},503);
+ // The count check and trigger increment are in the same SQLite statement.
+ const result=await db.prepare('INSERT OR IGNORE INTO beta_applicants(id,email,name,purpose,message,consent_version,created_at,expires_at,mode) SELECT ?,?,?,?,?,?,?,?,? WHERE (SELECT COALESCE(SUM(signups),0) FROM beta_metrics WHERE day=?)<?').bind(id,email,name,purpose,message,CONSENT_VERSION,stamp,expires,cfg.mode,stamp.slice(0,10),limit).run();
+ if(!result.meta.changes){
+  const duplicate=(await db.prepare('SELECT id FROM beta_applicants WHERE email=? AND mode=?').bind(email,cfg.mode).all()).results.length;
+  return json({error:duplicate?'이 이메일로 이미 신청하셨습니다.':'오늘의 접수 한도에 도달했습니다. 잠시 후 또는 다음 날 다시 확인해 주세요.'},duplicate?409:429);
+ }
  return json({ok:true,id,mode:cfg.mode,notificationEnabled:cfg.notificationEnabled},201);
 }
 export async function maintainBeta(env,db,{now=()=>new Date(),send=fetch}={}){

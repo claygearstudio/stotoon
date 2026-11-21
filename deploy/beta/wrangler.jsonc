@@ -24,13 +24,23 @@
   },
   "vars": {
     "BETA_OPEN": "0",
-    "OPERATOR_NAME": "",
-    "PRIVACY_EMAIL": "",
+    "OPERATOR_NAME": "parkjihoon98",
     "PRIVACY_APPROVED": "0",
     "MAIL_FROM": "onboarding@resend.dev",
     "BETA_END_AT": "",
-    "PREVIEW_NOTIFY_AFTER": "2026-11-21T13:22:00.000Z"
+    "PREVIEW_NOTIFY_AFTER": "2026-11-21T13:22:00.000Z",
+    "DAILY_SIGNUP_LIMIT": "50"
   },
   "workers_dev": true,
-  "preview_urls": false
+  "preview_urls": false,
+  "ratelimits": [
+    {
+      "name": "REQUEST_LIMITER",
+      "namespace_id": "2026112101",
+      "simple": {
+        "limit": 60,
+        "period": 60
+      }
+    }
+  ]
 }

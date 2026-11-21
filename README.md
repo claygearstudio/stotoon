@@ -52,3 +52,11 @@ npx wrangler@4 deploy --config deploy/beta/wrangler.jsonc
 ```
 
 배포 인증에는 account:read, user:read, workers:write, workers_scripts:write, d1:write 권한을 사용합니다. OAuth 인증정보와 메일 키는 저장소에 넣지 않습니다.
+
+## 운영·인수 안내
+
+- [운영 안내](docs/OPERATIONS.txt): 원격 조회·CSV·삭제 확인·자동 정리·배포와 복구
+- [인수 점검표](docs/HANDOVER.txt): 완료 항목과 사용자 확인 사항
+- [시연 영상 준비안](docs/DEMO-BRIEF.txt): 공개 자료 확정 후 촬영할 흐름
+
+원격 운영 도구는 PowerShell 7.5 이상에서 `./tools/beta-cloud.ps1 -Action health`로 실행합니다. 검수는 `npm test` 및 `./server/test/cloud-admin.test.ps1`입니다.

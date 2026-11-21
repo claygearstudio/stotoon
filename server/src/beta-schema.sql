@@ -12,3 +12,6 @@ CREATE TRIGGER IF NOT EXISTS beta_signup_count AFTER INSERT ON beta_applicants B
  INSERT INTO beta_metrics(day,mode,signups) VALUES(substr(NEW.created_at,1,10),NEW.mode,1)
  ON CONFLICT(day,mode) DO UPDATE SET signups=signups+1;
 END;
+CREATE TABLE IF NOT EXISTS beta_maintenance (
+ job TEXT PRIMARY KEY, completed_at TEXT NOT NULL, deleted INTEGER NOT NULL, sent INTEGER NOT NULL
+);

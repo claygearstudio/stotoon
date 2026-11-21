@@ -1,0 +1,58 @@
+스토툰 홈페이지 운영 안내 — 2026-11-21
+
+1. 현재 서비스
+공개 주소: https://stotoon-beta.fttracker.workers.dev/homepage/
+운영 표기: parkjihoon98. 클레이기어는 제작사이며 운영 주체가 아니다.
+현재는 가상 정보로 검토하는 preview이며 정식 모집은 꺼져 있다.
+Workers/D1/Resend를 연결했다. 신청자 자동 회신, 로그인, ComfyUI, 공개 작업실은 제공하지 않는다.
+
+2. 매일 확인 (저장소 폴더에서 PowerShell 실행)
+./tools/beta-cloud.ps1 -Action health
+scheduled completed_at가 현재보다 10분 이상 오래되면 Cloudflare Worker의 Cron/배포 상태를 확인한다. 시간은 UTC이며 한국 시각은 9시간을 더한다.
+notification=accepted는 메일 제공자 접수이며 실제 수신 보장은 아니다. pending이 오래 남거나 review가 있으면 Resend 로그와 수신함을 확인한다. 기존 id를 바꿔 강제 재발송하지 않는다.
+./tools/beta-cloud.ps1 -Action stats
+조회 수는 순방문자가 아니며 preview에는 검수 요청도 포함된다. UTC 일자 기준이다.
+./tools/beta-cloud.ps1 -Action list
+최신 100건의 개인정보가 터미널에 표시된다. 공개 화면 공유와 로그 업로드를 피한다.
+
+3. CSV
+./tools/beta-cloud.ps1 -Action csv -Id 실제접수UUID
+전체 내보내기가 필요한 운영 담당자는 -Id를 생략한다. data/private/exports에 저장되고 Git에서 제외된다. 기존 파일을 덮어쓰지 않는다.
+Excel 수식으로 해석될 수 있는 셀은 작은따옴표로 보호한다. CSV 사본도 원본과 같은 보관/삭제 기준을 적용한다.
+
+4. 삭제 요청
+접수 이메일을 통한 본인 확인 후 정확한 접수 UUID를 조회한다.
+./tools/beta-cloud.ps1 -Action delete -Id 실제접수UUID
+이 단계는 미리보기다. 대상 확인 후 다음을 실행한다.
+./tools/beta-cloud.ps1 -Action delete -Id 실제접수UUID -Apply
+복구가 어려운 삭제이므로 대상과 요청을 확인한다. 이메일 부분 일치나 전체 삭제는 하지 않는다. CSV 사본도 별도로 처리한다. 일별 익명 합계는 남는다.
+
+5. 자동 정리
+Cron은 5분마다 실행한다. 수집 후 1년 또는 설정한 베타 종료일 중 빠른 날에 신청 데이터를 정리한다. scheduled 기록은 마지막 성공 시각과 삭제/발송 건수만 저장한다.
+외부 CSV 및 제공자 복구용 백업의 보관/삭제는 별도 운영 정책 확인이 필요하다.
+
+6. 접수 보호
+Cloudflare에서 경로+접속 IP별 60초당 약 60회 POST 제한을 적용한다. IP는 신청 DB/방문 집계에 저장하지 않는다. 같은 공유망 사용자는 제한을 공유한다. 분산 지점의 근사 제한이며 완전한 봇 차단이 아니다.
+신청은 preview/live를 합해 UTC 일자당 50건으로 제한한다(DAILY_SIGNUP_LIMIT). 입력 검증을 통과한 저장 성공만 집계하며 삭제해도 당일 한도는 되돌리지 않는다. 동시 요청의 상한 검사는 DB 삽입과 같은 문장에서 처리한다.
+입력 요청은 6,000바이트까지만 읽고, 다른 출처 요청·동의 누락·허니팟·중복을 거절한다.
+공격으로 무료 한도를 소진시키는 모든 경우를 방어하는 것은 아니다. 대규모 모집 시 한도/봇 방어 정책을 다시 정한다. 유료 플랜으로 자동 변경하지 않는다.
+공식 근거: https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+
+7. 설정과 비밀
+RESEND_API_KEY, NOTIFY_TO, PRIVACY_EMAIL은 Worker secret에 보관한다. PRIVACY_EMAIL은 공개 문의 표시용이고 나머지 두 값은 공개 API에 반환하지 않는다.
+MAIL_FROM=onboarding@resend.dev는 Resend 계정 본인 주소 테스트용이다. 정식 운영 전 회사가 지정한 도메인을 인증하고 발신 주소를 바꾼다.
+PREVIEW_NOTIFY_AFTER 이후 검토 접수에만 테스트 메일을 보낸다. 비우면 검토 알림을 끈다. 기존 접수에 소급 발송하지 않도록 기준 시각을 과거로 바꾸지 않는다.
+
+8. 배포·복구
+npm test
+$env:BETA_SITE_URL='https://stotoon-beta.fttracker.workers.dev'
+npm run build
+npx wrangler@4 d1 migrations apply stotoon-beta --remote --config deploy/beta/wrangler.jsonc
+npx wrangler@4 deploy --config deploy/beta/wrangler.jsonc
+GitHub push만으로 배포되지 않는다. 배포 후 config와 신청/중복, 수신, health를 확인한다.
+문제 발생 시 Cloudflare의 stotoon-beta > Deployments에서 이전 정상 버전을 선택해 Rollback한다. DB에는 별도 복구 정책이 필요하며 코드 롤백으로 데이터가 복원되지는 않는다. 이번 0002 마이그레이션은 기록 테이블 추가뿐으로 기존 코드와 호환된다.
+비밀키는 Git·문서·스크린샷에 넣지 않는다. 키 노출 시 Resend에서 폐기/재발급하고 Worker secret을 교체한다.
+
+9. 정식 공개 전
+운영/개인정보 문안과 처리 지역/위탁 안내 확정, 공개 자료와 영상 반영, 발신 도메인 검증, 최종 인수 확인 후 BETA_OPEN=1 및 PRIVACY_APPROVED=1로 전환한다.
+검색 노출은 별도 BETA_INDEXABLE=1 빌드가 필요하며 공개 자료가 미확정이면 설정하지 않는다.

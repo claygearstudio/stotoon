@@ -41,3 +41,9 @@ test('preview notification status and completion reflect the server result',asyn
   await h.send();assert.equal(h.context.location.href,'/homepage/complete.html?mode=preview'+(enabled?'&notify=1':''));assert.equal(h.form.resetCalled,true);
  }
 });
+
+test('rate-limited submission preserves input and permits a later retry',async()=>{
+ let posts=0;const h=harness(async url=>url.endsWith('/config')?response({...cfg,open:true}):url.endsWith('/visit')?response({}):++posts===1?response({error:'1분 후 다시 시도해 주세요.'},429):response({mode:'preview'}));
+ await flush();await h.send();assert.equal(h.form.resetCalled,undefined);assert.equal(h.submit.disabled,false);assert.match(h.status.textContent,/1분 후/);
+ await h.send();assert.equal(h.form.resetCalled,true);assert.equal(h.context.location.href,'/homepage/complete.html?mode=preview');
+});

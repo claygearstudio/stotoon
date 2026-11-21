@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS beta_maintenance (
+ job TEXT PRIMARY KEY, completed_at TEXT NOT NULL, deleted INTEGER NOT NULL, sent INTEGER NOT NULL
+);
