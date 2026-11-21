@@ -39,7 +39,9 @@ CSV: node tools/beta-admin.mjs csv 출력경로.
 
 https://stotoon-beta.fttracker.workers.dev/homepage/
 
-Workers + D1의 검토용 접수 모드입니다. 실제 모집과 알림 발송은 운영 정보·메일 설정 확정 후 활성화합니다. GitHub에 push하는 것만으로 자동 배포되지는 않습니다.
+Workers + D1의 검토용 접수 모드입니다. 운영자 테스트 알림을 연결했으며 실제 모집은 운영 정보 확정 후 활성화합니다. GitHub에 push하는 것만으로 자동 배포되지는 않습니다.
+
+검토 모드 알림은 `PREVIEW_NOTIFY_AFTER`에 명시한 ISO 시각 이후 접수만 대상으로 합니다. 기본값은 비활성이며, 기존 검토 접수는 소급 발송하지 않습니다. 비활성화하려면 값을 비웁니다. `RESEND_API_KEY`(Sending access)와 `NOTIFY_TO`는 Worker secret으로 보관합니다. `onboarding@resend.dev` 발신은 Resend 계정 본인 주소로만 테스트할 수 있습니다. 실제 운영은 인증한 발신 도메인으로 전환합니다. 테스트 메일 제목에는 `[테스트]`가 붙으며 신청자 개인정보 대신 접수번호와 시각만 전달합니다.
 
 수동 배포는 `BETA_SITE_URL=https://stotoon-beta.fttracker.workers.dev` 환경 변수를 지정한 뒤 다음 순서로 실행합니다.
 

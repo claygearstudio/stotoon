@@ -63,3 +63,18 @@ test('config and submission agree at the exact closing instant and on invalid co
  }
  assert.equal((await rows(db)).results.length,1);
 }));
+
+test('preview mail opt-in excludes old records, invalid dates and missing credentials; new mail reaches only configured operator',()=>fixture(async db=>{
+ const old=()=>new Date('2026-11-21T00:00:00Z'),now=()=>new Date('2026-11-21T00:10:00Z');
+ const env={...live,BETA_OPEN:'0',PREVIEW_NOTIFY_AFTER:'2026-11-21T09:05:00+09:00'};
+ await handleBeta(request({...data,email:'old@example.com'}),{},db,{now:old});
+ for(const bad of [{...env,PREVIEW_NOTIFY_AFTER:'invalid'},{...env,RESEND_API_KEY:''},{...env,PREVIEW_NOTIFY_AFTER:'2027-01-01'}]){
+  const cfg=await (await handleBeta(new Request('https://test.example/api/homepage/config'),bad,db,{now})).json();assert.equal(cfg.notificationEnabled,false);
+ }
+ const result=await (await handleBeta(request(),env,db,{now})).json();assert.equal(result.notificationEnabled,true);assert.equal(result.mode,'preview');
+ let calls=[];const send=async(url,options)=>{calls.push(JSON.parse(options.body));return Response.json({id:'preview-provider'});};
+ await maintainBeta({...env,PREVIEW_NOTIFY_AFTER:'invalid'},db,{now,send});assert.equal(calls.length,0);
+ await maintainBeta(env,db,{now,send});await maintainBeta(env,db,{now,send});assert.equal(calls.length,1);
+ assert.deepEqual(calls[0].to,[env.NOTIFY_TO]);assert.match(calls[0].subject,/^\[테스트\]/);assert.ok(calls[0].text.includes(result.id));assert.ok(!calls[0].text.includes(data.email));
+ const all=(await rows(db)).results;assert.equal(all.find(r=>r.email==='old@example.com').notification,'pending');assert.equal(all.find(r=>r.id===result.id).notification,'accepted');
+}));

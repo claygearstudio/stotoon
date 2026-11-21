@@ -13,7 +13,7 @@ form.elements.purpose.addEventListener('change',()=>{custom.hidden=form.elements
 const consent=form.querySelector('.consent span');consent.replaceChildren(document.createTextNode('베타 신청을 위한 개인정보 수집·이용에 동의합니다. '));const link=document.createElement('a');link.href='/homepage/privacy.html';link.target='_blank';link.rel='noopener noreferrer';link.textContent='처리방침·수집 안내 (새 탭)';consent.append(link);
 function showConfig(cfg){
  submit.disabled=!cfg.open;submit.textContent=cfg.closedReason==='ended'?'모집 종료':cfg.mode==='live'?'베타 신청하기':'베타 신청 테스트';
- status.textContent=cfg.mode==='live'?'신청 정보는 비공개로 보관합니다.':'검토 모드입니다. 가상의 정보로 테스트해 주세요. 실제 알림 메일은 발송하지 않습니다.';
+ status.textContent=cfg.mode==='live'?'신청 정보는 비공개로 보관합니다.':cfg.notificationEnabled?'검토 모드입니다. 가상의 정보로 테스트해 주세요. 운영자에게 테스트 알림을 보냅니다.':'검토 모드입니다. 가상의 정보로 테스트해 주세요. 실제 알림 메일은 발송하지 않습니다.';
  if(!cfg.open)status.textContent=cfg.closedReason==='ended'?'베타 모집이 종료되었습니다.':'베타 신청 준비 중입니다.';
  document.querySelectorAll('.preview-label').forEach(e=>e.textContent=cfg.closedReason==='ended'?'BETA CLOSED':cfg.mode==='live'?(cfg.open?'BETA OPEN':'BETA 준비 중'):'PREVIEW · 실제 모집 전');
  if(cfg.mode==='live')document.querySelector('.signup p').textContent=cfg.open?'스토툰의 첫 사용자가 되어 주세요.':cfg.closedReason==='ended'?'베타 모집이 마감되었습니다.':'베타 참여를 준비하고 있습니다.';
@@ -30,7 +30,7 @@ form.addEventListener('submit',async event=>{
  event.preventDefault();if(!form.reportValidity()||submit.disabled||!config?.open)return;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent='신청 정보를 저장하고 있습니다…';
  try{const data=Object.fromEntries(new FormData(form));if(data.purpose==='기타'&&data.purposeOther.trim())data.purpose=data.purposeOther.trim();delete data.purposeOther;data.consent=form.elements.consent.checked;data.consentVersion=config.consentVersion;
  const result=await requestJson('/api/homepage/beta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
- form.reset();custom.hidden=true;location.href='/homepage/complete.html?mode='+encodeURIComponent(result.mode);
+ form.reset();custom.hidden=true;location.href='/homepage/complete.html?mode='+encodeURIComponent(result.mode)+(result.notificationEnabled?'&notify=1':'');
  }catch(error){status.textContent=error.message;
  if(error.status===410||error.status===503){config.open=false;retry.hidden=false;submit.textContent=error.status===410?'모집 종료':'신청 준비 중';}
  else if(error.status===409){status.textContent+=' 이전 제출 중 연결이 끊겼다면 이미 저장되었을 수 있습니다. 다른 이메일로 다시 신청할 필요는 없습니다.';}

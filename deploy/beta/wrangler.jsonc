@@ -26,10 +26,10 @@
     "BETA_OPEN": "0",
     "OPERATOR_NAME": "",
     "PRIVACY_EMAIL": "",
-    "NOTIFY_TO": "",
     "PRIVACY_APPROVED": "0",
-    "MAIL_FROM": "",
-    "BETA_END_AT": ""
+    "MAIL_FROM": "onboarding@resend.dev",
+    "BETA_END_AT": "",
+    "PREVIEW_NOTIFY_AFTER": "2026-11-21T13:22:00.000Z"
   },
   "workers_dev": true,
   "preview_urls": false

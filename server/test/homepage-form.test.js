@@ -33,3 +33,11 @@ test('closed config and a closure during submission keep the form disabled',asyn
  const closed=harness(async url=>response(url.endsWith('/config')?{...cfg,open:false,closedReason:'ended'}:{}));await flush();assert.equal(closed.submit.disabled,true);assert.equal(closed.submit.textContent,'모집 종료');
  const changed=harness(async url=>url.endsWith('/config')?response(cfg):url.endsWith('/beta')?response({error:'모집 종료'},410):response({}));await flush();await changed.send();assert.equal(changed.submit.disabled,true);assert.equal(changed.retry.hidden,false);assert.equal(changed.form.resetCalled,undefined);
 });
+
+test('preview notification status and completion reflect the server result',async()=>{
+ for(const enabled of [false,true]){
+  const h=harness(async url=>response(url.endsWith('/config')?{...cfg,open:true,notificationEnabled:enabled}:url.endsWith('/beta')?{mode:'preview',notificationEnabled:enabled}:{}));
+  await flush();assert.match(h.status.textContent,enabled?/테스트 알림을 보냅니다/:/발송하지 않습니다/);
+  await h.send();assert.equal(h.context.location.href,'/homepage/complete.html?mode=preview'+(enabled?'&notify=1':''));assert.equal(h.form.resetCalled,true);
+ }
+});
