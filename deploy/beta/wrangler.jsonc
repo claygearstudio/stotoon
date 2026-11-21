@@ -1,0 +1,34 @@
+{
+  "name": "stotoon-beta",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-21",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/homepage/*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stotoon-beta",
+      "database_id": "REPLACE_AFTER_ACCOUNT_SETUP",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "*/5 * * * *"
+    ]
+  },
+  "vars": {
+    "BETA_OPEN": "0",
+    "OPERATOR_NAME": "",
+    "PRIVACY_EMAIL": "",
+    "NOTIFY_TO": "",
+    "PRIVACY_APPROVED": "0",
+    "MAIL_FROM": "",
+    "BETA_END_AT": ""
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "stotoon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "스토툰 서비스 소개 및 베타 신청 홈페이지",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env tools/serve-beta.mjs",
+    "build": "node tools/package-beta.mjs",
+    "test": "node --test server/test/*.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

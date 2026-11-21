@@ -1,0 +1,1 @@
+fetch('/api/homepage/config').then(r=>r.json()).then(c=>{document.getElementById('policy-status').textContent=`운영 주체: ${c.operator} · ${c.mode==='live'?'운영 중':'공개 전 검토용 초안'}`;const a=document.getElementById('contact');a.textContent=c.contact;a.href='mailto:'+c.contact;}).catch(()=>{});
