@@ -5,7 +5,7 @@ export function settings(env={},date=new Date()){
  const ready=!!(env.OPERATOR_NAME&&env.PRIVACY_EMAIL&&env.PRIVACY_APPROVED==='1'&&env.RESEND_API_KEY&&env.MAIL_FROM&&env.NOTIFY_TO);
  const end=env.BETA_END_AT?Date.parse(env.BETA_END_AT):null;
  const invalidEnd=end!==null&&!Number.isFinite(end),ended=end!==null&&!invalidEnd&&end<=date.getTime();
- return {mode:live?'live':'preview',open:(!live||ready)&&!invalidEnd&&!ended,closedReason:invalidEnd?'setup':ended?'ended':live&&!ready?'setup':null,ready,operator:env.OPERATOR_NAME||'운영 주체 확인 중',contact:env.PRIVACY_EMAIL||'privacy@example.com',consentVersion:CONSENT_VERSION,betaEnd:env.BETA_END_AT||null};
+ return {mode:live?'live':'preview',open:(!live||ready)&&!invalidEnd&&!ended,closedReason:invalidEnd?'setup':ended?'ended':live&&!ready?'setup':null,ready,operator:env.OPERATOR_NAME||'운영 주체 확인 중',contact:env.PRIVACY_EMAIL||'',consentVersion:CONSENT_VERSION,betaEnd:env.BETA_END_AT||null};
 }
 export async function handleBeta(request,env,db,{now=()=>new Date()}={}){
  const date=now(),url=new URL(request.url),cfg=settings(env,date),route=url.pathname;

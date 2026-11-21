@@ -15,7 +15,7 @@ function showConfig(cfg){
  submit.disabled=!cfg.open;submit.textContent=cfg.closedReason==='ended'?'모집 종료':cfg.mode==='live'?'베타 신청하기':'베타 신청 테스트';
  status.textContent=cfg.mode==='live'?'신청 정보는 비공개로 보관합니다.':'검토 모드입니다. 가상의 정보로 테스트해 주세요. 실제 알림 메일은 발송하지 않습니다.';
  if(!cfg.open)status.textContent=cfg.closedReason==='ended'?'베타 모집이 종료되었습니다.':'베타 신청 준비 중입니다.';
- document.querySelectorAll('.preview-label').forEach(e=>e.textContent=cfg.closedReason==='ended'?'BETA CLOSED':cfg.mode==='live'?(cfg.open?'BETA OPEN':'BETA 준비 중'):'LOCAL PREVIEW · 실제 모집 전');
+ document.querySelectorAll('.preview-label').forEach(e=>e.textContent=cfg.closedReason==='ended'?'BETA CLOSED':cfg.mode==='live'?(cfg.open?'BETA OPEN':'BETA 준비 중'):'PREVIEW · 실제 모집 전');
  if(cfg.mode==='live')document.querySelector('.signup p').textContent=cfg.open?'스토툰의 첫 사용자가 되어 주세요.':cfg.closedReason==='ended'?'베타 모집이 마감되었습니다.':'베타 참여를 준비하고 있습니다.';
 }
 async function loadConfig(){

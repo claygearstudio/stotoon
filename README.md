@@ -34,3 +34,19 @@ CSV: node tools/beta-admin.mjs csv 출력경로.
 데이터와 CSV는 Git에서 제외합니다. 별도 사본도 보관 기간에 맞춰 관리합니다.
 수집 후1년 또는 베타 종료일 중 이른 시각에 파기하며 서버/cron 실행이 필요합니다. 메일 API 접수는 실제 수신 완료가 아닙니다. review 상태의 알림은 제공자 로그를 확인해야 합니다.
 공개 전 트래픽 제한·개인정보 고지·관리 권한 및 무료 플랜 한도를 확인하세요.
+
+## 배포된 검토 사이트
+
+https://stotoon-beta.fttracker.workers.dev/homepage/
+
+Workers + D1의 검토용 접수 모드입니다. 실제 모집과 알림 발송은 운영 정보·메일 설정 확정 후 활성화합니다. GitHub에 push하는 것만으로 자동 배포되지는 않습니다.
+
+수동 배포는 `BETA_SITE_URL=https://stotoon-beta.fttracker.workers.dev` 환경 변수를 지정한 뒤 다음 순서로 실행합니다.
+
+```sh
+npm run build
+npx wrangler@4 d1 migrations apply stotoon-beta --remote --config deploy/beta/wrangler.jsonc
+npx wrangler@4 deploy --config deploy/beta/wrangler.jsonc
+```
+
+배포 인증에는 account:read, user:read, workers:write, workers_scripts:write, d1:write 권한을 사용합니다. OAuth 인증정보와 메일 키는 저장소에 넣지 않습니다.
