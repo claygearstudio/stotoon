@@ -1,0 +1,18 @@
+body.tool-theme header .workspace-home{display:flex!important;gap:10px;align-items:center;min-width:200px;margin:0;padding:10px 18px;text-decoration:none;color:#cbd5bd}
+.workspace-home img{width:132px;height:32px}.workspace-home span{font-size:11px;white-space:nowrap}
+body.tool-theme .flowbar{gap:12px!important;padding:12px 18px!important;min-height:64px;flex-wrap:wrap}
+body.tool-theme .flowbar .compact-icon,body.tool-theme.story-workstation .flowbar #project-characters,body.tool-theme .flowbar #flow-save{width:44px!important;min-width:44px!important;height:44px!important;padding:10px!important}
+.flowbar .project-history{display:flex;gap:10px;padding:0 12px;border-inline:1px solid #505747}
+body.tool-theme .flowbar #project-title{max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:10px 14px;font-size:13px;border-color:#788a5e;text-align:left}
+body.tool-theme .flowbar button[aria-pressed=true]{outline:2px solid #b5c58e;outline-offset:2px}
+.flowbar #flow-status{font-size:11px;flex-basis:100%;order:2;margin:0}.flowbar #history-status{display:none}
+body.tool-theme .object-tools-grid{gap:10px}.object-tools-grid button{min-height:42px}
+.layer-row:disabled{opacity:.35;cursor:not-allowed}.layer-entry:has(.layer-row:disabled){background:#1e2225}
+#project-title-dialog{width:min(520px,94vw);padding:28px}#project-title-dialog label{display:block;margin:18px 0 8px}#project-title-dialog input{display:block;width:100%;margin-top:8px;padding:12px;font:inherit}.dialog-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
+#flow-dialog .flow-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}#flow-dialog .flow-card:first-child{border:2px solid #b5c58e;background:#333e2a}#flow-dialog .flow-card h3{font-size:21px;margin:0 0 18px}#flow-dialog .flow-card p{line-height:1.7}#flow-dialog #flow-ora{margin-top:12px;background:transparent;border-color:#78816d}#flow-dialog .flow-footer{padding-top:20px;border-top:1px solid #56604b;margin-top:28px}
+#character-setup .character-footer{gap:14px;padding:20px 0;border-top:1px solid #56604b;margin-top:20px}#character-apply{background:#c3d49b!important;color:#20261b!important;padding:12px 24px!important}
+#toast{max-width:min(480px,90vw);padding:10px 18px!important;line-height:1.5}
+.bubble,.narration-copy{cursor:text}.bubble text,.narration-copy{user-select:none}
+@media(max-width:720px){body.tool-theme header .workspace-home{min-width:0;padding:8px}.workspace-home img{width:100px}.workspace-home span{display:none}body.tool-theme .flowbar{gap:8px!important;padding:8px!important}.flowbar #project-title{width:100%;max-width:none!important}.flowbar .project-history{padding:0 8px;gap:8px}#flow-dialog .flow-grid{grid-template-columns:1fr}.flowbar #flow-status{line-height:1.5}}
+
+body.tool-theme.stotoon-workspace .workspace-home:after{content:none}#visible-layers button:disabled{opacity:.35;cursor:default}

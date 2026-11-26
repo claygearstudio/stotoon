@@ -82,6 +82,8 @@
   "public-entry.js",
   "reference-workspace.css",
   "reference-workspace.js",
+  "review-ui.css",
+  "review-ui.js",
   "story-workspace.js",
   "theme.css",
   "tool-theme.css",

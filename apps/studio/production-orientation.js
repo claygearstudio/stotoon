@@ -23,7 +23,7 @@ function access(){const p=plan();dialog.innerHTML=`<div class="row"><h2 id="prod
 function update(){const m=mode(),n=comicPanels.length,p=plan();
  $('#panel-progress').textContent=m==='story'?`체험 예제 · 전체 ${n}컷`:`예제 전체 ${n}컷 · 현재 ${String(selected).padStart(2,'0')}컷`;
  $('#production-target').textContent=`제작 목표 ${length(p)} · 무료 ${FREE}컷`+(p.max>FREE?` · 추가 ${p.max-FREE}컷 필요`:'');
- const info={story:['1 · 이야기와 제작 분량 정하기','대화 → 인물·원고·목표 컷 수 확인 → 컷 구성','컷 구성 확인 →'],edit:['2 · 컷과 레이어 다듬기','왼쪽에서 컷·레이어 선택 → 오른쪽 도구로 수정 → 버전 저장','읽기 화면으로 →'],layout:['3 · 읽기와 내보내기','세로 흐름·여백 확인 → 버전 저장 → 프로젝트 JSON 내려받기','내보내기 선택 →']}[m];
+ const info={story:['1 · 이야기와 제작 분량 정하기','대화 → 인물·원고·목표 컷 수 확인 → 컷 구성','컷 구성 확인 →'],edit:['2 · 컷과 레이어 다듬기','왼쪽에서 컷·레이어 선택 → 오른쪽 도구로 수정 → 버전 저장','읽기 화면으로 →'],layout:['3 · 읽기와 내보내기','세로 흐름·여백 확인 → 버전 저장 → 프로젝트 파일 내려받기','내보내기 선택 →']}[m];
  $('#stage-purpose').textContent=info[0];$('#stage-description').textContent=info[1];$('#stage-next').textContent=info[2];$('#production-open').textContent=p.min?'제작 분량·이용 안내':'제작 분량 정하기';
  $('.tag').textContent=`체험 예제 ${n}컷`;$('.rail h3').textContent=`예제 컷 목록 · 총 ${n}컷`;
  if(m!=='story')$('#selected-title').textContent=m==='layout'?`전체 ${n}컷 읽기 · 선택 ${selected}컷`:`전체 ${n}컷 중 ${String(selected).padStart(2,'0')}컷 편집`;

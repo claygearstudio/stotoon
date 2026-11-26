@@ -8,14 +8,14 @@ async function fixture(fn){const output=await fs.mkdtemp(path.join(os.tmpdir(),'
 test('standalone public build has no private runtime dependencies or dead local links',()=>fixture(async output=>{
  await packageBeta({output});const html=await fs.readFile(path.join(output,'homepage/index.html'),'utf8');
  assert.match(html,/noindex,nofollow/);assert.doesNotMatch(html,/\/files\/|\/create\?|<details|SEO_SLOT|DEMO_SLOT|CREDIT_SLOT/);assert.match(html,/시연 영상을 준비/);
- for(const [,url]of html.matchAll(/(?:href|src)="([^"]+)"/g)){if(url.startsWith('#'))assert.ok(html.includes(`id="${url.slice(1)}"`),url);else if(url.startsWith('/'))await fs.access(path.join(output,url.endsWith('/')?url+'index.html':url));}
+ for(const [,url]of html.matchAll(/(?:href|src)="([^"]+)"/g)){if(url.startsWith('#'))assert.ok(html.includes(`id="${url.slice(1)}"`),url);else if(url.startsWith('/'))await fs.access(path.join(output,new URL(url,'https://local.test').pathname.endsWith('/')?new URL(url,'https://local.test').pathname+'index.html':new URL(url,'https://local.test').pathname));}
  for(const name of ['style.css','studio.css','public.css']){const css=await fs.readFile(path.join(output,'homepage',name),'utf8');assert.doesNotMatch(css,/\/files\//);}
  assert.equal(await fs.readFile(path.join(output,'robots.txt'),'utf8'),'User-agent: *\nDisallow: /\n');
  assert.equal((html.match(/class="faq-item"/g)||[]).length,5);
 }));
 test('search release uses one HTTPS canonical, escaped credit and click-to-load video',()=>fixture(async output=>{
  await packageBeta({output,siteUrl:'https://beta.example.com',credit:'Example <owner>',videoUrl:'https://www.youtube.com/watch?v=abcdefghijk',indexable:true});
- const html=await fs.readFile(path.join(output,'homepage/index.html'),'utf8');assert.match(html,/content="index,follow"/);assert.match(html,/https:\/\/beta.example.com\/homepage\/assets\/share.png/);assert.match(html,/Example &lt;owner&gt;/);assert.match(html,/data-video="abcdefghijk"/);assert.doesNotMatch(html,/<iframe/);
+ const html=await fs.readFile(path.join(output,'homepage/index.html'),'utf8');assert.match(html,/content="index,follow"/);assert.match(html,/https:\/\/beta.example.com\/homepage\/assets\/share.png/);assert.match(html,/Example &lt;owner&gt;/);assert.match(html,/data-video="abcdefghijk"/);assert.doesNotMatch(html,/<iframe[^>]+src="https?:/);assert.match(html,/<iframe[^>]+src="\/studio\/\?entry=edit"/);
  assert.match(await fs.readFile(path.join(output,'sitemap.xml'),'utf8'),/<loc>https:\/\/beta.example.com\/homepage\/<\/loc>/);
  const png=await fs.readFile(path.join(output,'homepage/assets/share.png'));assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
 }));

@@ -10,7 +10,7 @@ async function requestJson(url,options={}){
 }
 const custom=document.createElement('label');custom.textContent='이용 목적 직접 입력 (선택)';const other=document.createElement('input');other.name='purposeOther';other.maxLength=100;custom.append(other);form.elements.purpose.closest('label').after(custom);custom.hidden=true;
 form.elements.purpose.addEventListener('change',()=>{custom.hidden=form.elements.purpose.value!=='기타';});
-const consent=form.querySelector('.consent span');consent.replaceChildren(document.createTextNode('베타 신청을 위한 개인정보 수집·이용에 동의합니다. '));const link=document.createElement('a');link.href='/homepage/privacy.html';link.target='_blank';link.rel='noopener noreferrer';link.textContent='처리방침·수집 안내 (새 탭)';consent.append(link);
+const consent=form.querySelector('.consent span');consent.replaceChildren(document.createTextNode('베타 신청을 위한 개인정보 수집·이용에 동의합니다 '));const link=document.createElement('a');link.href='/homepage/privacy.html';link.target='_blank';link.rel='noopener noreferrer';link.textContent='개인정보처리방침';consent.append(link);
 function showConfig(cfg){
  submit.disabled=!cfg.open;submit.textContent=cfg.closedReason==='ended'?'모집 종료':cfg.mode==='live'?'베타 신청하기':'베타 신청 테스트';
  status.textContent=cfg.mode==='live'?'신청 정보는 비공개로 보관합니다.':cfg.notificationEnabled?'검토 모드입니다. 가상의 정보로 테스트해 주세요. 운영자에게 테스트 알림을 보냅니다.':'검토 모드입니다. 가상의 정보로 테스트해 주세요. 실제 알림 메일은 발송하지 않습니다.';
@@ -27,7 +27,7 @@ async function loadConfig(){
 retry.addEventListener('click',loadConfig);loadConfig();
 fetch('/api/homepage/visit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'pageview'})}).catch(()=>{});
 form.addEventListener('submit',async event=>{
- event.preventDefault();if(!form.reportValidity()||submit.disabled||!config?.open)return;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent='신청 정보를 저장하고 있습니다…';
+ event.preventDefault();if(!form.reportValidity()||submit.disabled||!config?.open)return;submit.disabled=true;form.setAttribute('aria-busy','true');status.textContent='접수 중…';
  try{const data=Object.fromEntries(new FormData(form));if(data.purpose==='기타'&&data.purposeOther.trim())data.purpose=data.purposeOther.trim();delete data.purposeOther;data.consent=form.elements.consent.checked;data.consentVersion=config.consentVersion;
  const result=await requestJson('/api/homepage/beta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
  form.reset();custom.hidden=true;location.href='/homepage/complete.html?mode='+encodeURIComponent(result.mode)+(result.notificationEnabled?'&notify=1':'');
