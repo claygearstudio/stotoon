@@ -16,3 +16,12 @@ body.tool-theme .object-tools-grid{gap:10px}.object-tools-grid button{min-height
 @media(max-width:720px){body.tool-theme header .workspace-home{min-width:0;padding:8px}.workspace-home img{width:100px}.workspace-home span{display:none}body.tool-theme .flowbar{gap:8px!important;padding:8px!important}.flowbar #project-title{width:100%;max-width:none!important}.flowbar .project-history{padding:0 8px;gap:8px}#flow-dialog .flow-grid{grid-template-columns:1fr}.flowbar #flow-status{line-height:1.5}}
 
 body.tool-theme.stotoon-workspace .workspace-home:after{content:none}#visible-layers button:disabled{opacity:.35;cursor:default}
+
+#letter-feedback{font-size:12px;color:#d4dfaa;margin:6px 0;min-height:18px}
+@media(max-width:720px){body.tool-theme .subbar{height:auto!important;min-height:52px;display:flex!important;flex-wrap:wrap;padding:6px 10px}body.tool-theme .subbar>div{display:none}body.tool-theme .subbar button{min-height:40px;flex:1}body.tool-theme .flowbar #flow-status{display:none}body.tool-theme .inspector{max-height:75dvh;padding-bottom:max(16px,env(safe-area-inset-bottom))}.inspector :is(button,select){min-height:44px}.inspector :is(textarea,select){font-size:16px}.workspace-home span{display:inline;font-size:10px}.flowbar #shortcut-help{display:none}body.tool-theme .object-tools-grid{gap:8px!important}.narration-copy{touch-action:manipulation}}
+
+@media(max-width:720px){body.tool-theme .inspector{z-index:25}body.tool-theme .inspector :is(button,select){min-height:44px!important}body.tool-theme .inspector :is(textarea,select){font-size:16px!important}}
+
+@media(max-width:720px){body.tool-theme #character-setup{position:fixed!important;z-index:40;inset:100px 0 0;width:100%!important;max-height:none!important;margin:0!important;padding:16px!important;overflow:auto!important;background:#252a2f;border-top:1px solid #65724e;overscroll-behavior:contain}#character-setup>.row{position:sticky;top:-16px;background:#252a2f;z-index:2;padding:12px 0}#character-setup .character-footer{bottom:-16px;padding-bottom:max(16px,env(safe-area-inset-bottom))}#character-setup textarea{font-size:16px}.character-card{grid-template-columns:72px minmax(0,1fr);padding:10px}.character-card img{width:72px;height:160px}}
+
+body.tool-theme #flow-dialog .flow-card:first-child{border:2px solid #b5c58e!important;background:#333e2a!important}

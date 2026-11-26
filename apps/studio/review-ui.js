@@ -13,4 +13,10 @@ const help=document.createElement('button');help.id='shortcut-help';help.textCon
 const shortcuts=document.createElement('dialog');document.body.append(shortcuts);help.onclick=()=>{shortcuts.innerHTML=`<h2>${isMac?'Mac':'Windows'} 단축키</h2><dl><dt>실행 취소</dt><dd>${modifier} + Z</dd><dt>다시 실행</dt><dd>${modifier} + Shift + Z</dd><dt>여러 레이어 선택</dt><dd>Shift + 클릭</dd><dt>말풍선 수정</dt><dd>말풍선 더블클릭</dd></dl><p>글을 입력하는 동안에는 입력창의 실행 취소가 동작해요</p><button>닫기</button>`;shortcuts.querySelector('button').onclick=()=>shortcuts.close();shortcuts.showModal();};
 const oldNote=note;note=t=>oldNote(String(t).replace(/\s*2D 편집 예시입니다\.?/g,'').replace(/[.,]$/,''));
 document.querySelector('#toast').setAttribute('role','status');
+const toolContent=document.querySelector('#tool-content');
+function syncToolTab(){const letter=!!toolContent.querySelector('#letter-text');document.querySelectorAll('#edit-tools>.tabs button').forEach((b,i)=>{b.classList.toggle('active',letter?i===1:i===0);b.setAttribute('aria-pressed',String(letter?i===1:i===0))})}
+new MutationObserver(syncToolTab).observe(toolContent,{childList:true});syncToolTab();
+document.querySelector('.rail').addEventListener('click',e=>{if(e.target.closest('#thumbs button,[data-obj],[data-line],[data-text-layer],[data-object-layer]')){document.querySelector('.rail').classList.remove('layer-drawer');document.querySelector('#layers-toggle').setAttribute('aria-expanded','false')}});
+const mobileLetter=document.createElement('button');mobileLetter.id='mobile-letter';mobileLetter.className='mobile-tools';mobileLetter.textContent='말풍선 수정';mobileLetter.onclick=()=>{const p=comicPanels.find(p=>p.id===selected),i=p?.lines.findIndex(l=>!l.hidden&&!l.locked);if(i==null||i<0){note('수정할 말풍선이 없어요');return}openLetter(selected,i)};document.querySelector('.subbar').append(mobileLetter);
+
 })();

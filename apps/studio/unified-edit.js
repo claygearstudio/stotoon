@@ -1,11 +1,11 @@
 /* One project history and one character setup shared by story and editing. */
 (()=>{
 const $=s=>document.querySelector(s),clone=x=>JSON.parse(JSON.stringify(x));
-const bar=$('.flowbar');const buttons=document.createElement('div');buttons.className='project-history';buttons.innerHTML='<button id="project-undo" disabled title="실행 취소 · Ctrl+Z">↶ 실행 취소</button><button id="project-redo" disabled title="다시 실행 · Ctrl+Shift+Z">↷ 다시 실행</button><span id="history-status" aria-live="polite"></span>';bar.insertBefore(buttons,$('#flow-save'));
+const mod=/Mac|iPhone|iPad/.test(navigator.platform)?'⌘':'Ctrl';const bar=$('.flowbar');const buttons=document.createElement('div');buttons.className='project-history';buttons.innerHTML='<button id="project-undo" disabled title="실행 취소 · Ctrl+Z">↶ 실행 취소</button><button id="project-redo" disabled title="다시 실행 · Ctrl+Shift+Z">↷ 다시 실행</button><span id="history-status" aria-live="polite"></span>';bar.insertBefore(buttons,$('#flow-save'));
 let past=[],future=[],last=null,busy=false,timer;const limit=40;
 const capture=()=>{const v=editorFlow.capture();delete v.time;return v};
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-function update(){ $('#project-undo').disabled=!past.length;$('#project-redo').disabled=!future.length;$('#project-undo').title=past.length?'실행 취소: '+past.at(-1).label+' · Ctrl+Z':'되돌릴 변경 없음';$('#project-redo').title=future.length?'다시 실행: '+future.at(-1).label+' · Ctrl+Shift+Z':'다시 실행할 변경 없음'; }
+function update(){ $('#project-undo').disabled=!past.length;$('#project-redo').disabled=!future.length;$('#project-undo').title=past.length?'실행 취소: '+past.at(-1).label+' · '+mod+'+Z':'되돌릴 변경 없음';$('#project-redo').title=future.length?'다시 실행: '+future.at(-1).label+' · '+mod+'+Shift+Z':'다시 실행할 변경 없음'; }
 function commit(label='편집'){clearTimeout(timer);if(busy||!last)return;const now=capture();if(!equal(now,last)){past.push({before:last,after:now,label});if(past.length>limit)past.shift();future=[];last=now;$('#history-status').textContent=label;$('#flow-status').textContent='변경됨 · 버전 저장으로 전체 작업 보관';update()}}
 function queue(label,delay=0){if(busy||!last)return;clearTimeout(timer);timer=setTimeout(()=>commit(label),delay)}
 function travel(redo){if(busy)return;commit();const stack=redo?future:past;if(!stack.length)return;const item=stack.pop();(redo?past:future).push(item);busy=true;const ids=objectEditor.selection();const scroll=$('.canvas').scrollTop;editorFlow.restoreForHistory(clone(redo?item.after:item.before));setTimeout(()=>{if(ids.length){objectEditor.clear();for(const id of ids)objectEditor.select(id,true)}$('.canvas').scrollTop=scroll;last=capture();busy=false;$('#history-status').textContent=(redo?'다시 실행 · ':'실행 취소 · ')+item.label;update()},0)}
