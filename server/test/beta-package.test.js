@@ -15,7 +15,7 @@ test('standalone public build has no private runtime dependencies or dead local 
 }));
 test('search release uses one HTTPS canonical, escaped credit and click-to-load video',()=>fixture(async output=>{
  await packageBeta({output,siteUrl:'https://beta.example.com',credit:'Example <owner>',videoUrl:'https://www.youtube.com/watch?v=abcdefghijk',indexable:true});
- const html=await fs.readFile(path.join(output,'homepage/index.html'),'utf8');assert.match(html,/content="index,follow"/);assert.match(html,/https:\/\/beta.example.com\/homepage\/assets\/share.png/);assert.match(html,/Example &lt;owner&gt;/);assert.match(html,/data-video="abcdefghijk"/);assert.doesNotMatch(html,/<iframe[^>]+src="https?:/);assert.match(html,/<iframe[^>]+src="\/studio\/\?entry=edit"/);
+ const html=await fs.readFile(path.join(output,'homepage/index.html'),'utf8');assert.match(html,/content="index,follow"/);assert.match(html,/https:\/\/beta.example.com\/homepage\/assets\/share.png/);assert.match(html,/Example &lt;owner&gt;/);assert.match(html,/data-video="abcdefghijk"/);assert.doesNotMatch(html,/<iframe/);assert.match(html,/<img[^>]+src="\/homepage\/assets\/editor.webp"/);
  assert.match(await fs.readFile(path.join(output,'sitemap.xml'),'utf8'),/<loc>https:\/\/beta.example.com\/homepage\/<\/loc>/);
  const png=await fs.readFile(path.join(output,'homepage/assets/share.png'));assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
 }));
